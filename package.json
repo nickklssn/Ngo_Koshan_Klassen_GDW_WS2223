@@ -1,0 +1,22 @@
+{
+  "name": "ngo_koshan_klassen_gdw_ws2223",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node hello.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickklssn/Ngo_Koshan_Klassen_GDW_WS2223.git"
+  },
+  "author": "Joash Koshan, Fabian Ngo, Nick Klassen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nickklssn/Ngo_Koshan_Klassen_GDW_WS2223/issues"
+  },
+  "homepage": "https://github.com/nickklssn/Ngo_Koshan_Klassen_GDW_WS2223#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
