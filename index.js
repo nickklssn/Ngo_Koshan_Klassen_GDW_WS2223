@@ -11,6 +11,27 @@ function initMap() {
   });
   infoWindow = new google.maps.InfoWindow();
 
+  var subButton = document.getElementById("subButton");
+
+  // This function sets a custom marker depending on user input
+  function setCustomMarker() {
+    let marker = new google.maps.Marker({
+      position: null,
+      map: map,
+      zoom: 6,
+    });
+
+    var lat = document.getElementById("lat").value;
+    var lng = document.getElementById("lng").value;
+    const pos = { lat: parseFloat(lat), lng: parseFloat(lng) };
+
+    marker.position = pos;
+
+    map.setCenter(pos);
+  }
+
+  subButton.addEventListener("click", setCustomMarker);
+
   const locationButton = document.createElement("button");
 
   locationButton.textContent = "Pan to Current Location";
