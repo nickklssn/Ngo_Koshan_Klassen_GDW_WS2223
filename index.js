@@ -29,7 +29,7 @@ function initMap() {
 
     map.setCenter(pos);
   }
-
+// find the current Position automaticly
   subButton.addEventListener("click", setCustomMarker);
 
   const locationButton = document.createElement("button");
@@ -66,7 +66,7 @@ function initMap() {
     }
   });
 }
-
+//This function handles error if geolocation does not work
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(
