@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Grundlagen des Web</title>
+    <link rel="stylesheet" type="text/css" href="../style.css" />
+    <script type="module" src="../index.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <div>
+      <form>
+        <label for="lat">Lat</label>
+        <input type="number" id="lat" />
+
+        <label for="lng">Lng</label>
+        <input type="number" id="lng" />
+
+        <button id="subButton" type="button">Submit</button>
+      </form>
+    </div>
+
+    <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly"
+      defer
+    ></script>
+  </body>
+</html>
