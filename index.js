@@ -1,3 +1,5 @@
+require('dotenv').config(); // Include dotenv file to store the API-Keys
+
 // Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
@@ -78,3 +80,42 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 window.initMap = initMap;
+
+
+// Tankerkönig-API 
+
+async function getFuelPrices(latitude, longitude, radius) {
+  const apiKey = process.env.TANKERKOENIG_API_KEY;
+  const apiUrl = 'https://creativecommons.tankerkoenig.de/json/';
+
+  // Die Anfrage-Parameter für die API definieren
+  const params = {
+    lat: latitude,
+    lng: longitude,
+    rad: radius,
+    type: 'all',
+    apikey: apiKey
+  };
+
+  // Die URL für die Anfrage erstellen
+  const queryString = Object.keys(params)
+    .map(key => key + '=' + params[key])
+    .join('&');
+  const url = apiUrl + 'list.php?' + queryString;
+
+  // Die Anfrage senden und das Ergebnis verarbeiten
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Beispielaufruf
+const fuelPrices = await getFuelPrices(51.023111857618346, 7.562088134538031, 10);
+
+// Preise für Seperate Spritpreise
+const gasolinePrice = fuelPrices.stations[0].e5;
+const dieselPrice = fuelPrices.stations[0].diesel;
