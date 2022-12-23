@@ -3,19 +3,29 @@
     <title>Grundlagen des Web</title>
     <link rel="stylesheet" type="text/css" href="../style.css" />
     <script type="module" src="../index.js"></script>
+    <script type="module" src="../postDriver.js"></script>
   </head>
   <body>
     <div id="map"></div>
 
-    <div>
-      <form>
+    <div id="create-user">
+      Create User
+      <form action="/driver" method="POST">
+        <label for="name">Driver name:</label>
+        <input type="text" id="name" name="name" /><br /><br />
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" /><br /><br />
+        <label for="car">Car</label>
+        <input type="number" id="car" name="car" /><br /><br />
+        <label for="budget">Budget</label>
+        <input type="number" id="budget" name="budget" /><br /><br />
+
         <label for="lat">Lat</label>
         <input type="number" id="lat" />
 
         <label for="lng">Lng</label>
-        <input type="number" id="lng" />
-
-        <button id="subButton" type="button">Submit</button>
+        <input type="text" id="lng" />
+        <input type="submit" id="create" value="Submit" />
       </form>
     </div>
 
