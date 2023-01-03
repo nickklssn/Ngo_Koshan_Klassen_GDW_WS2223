@@ -65,6 +65,48 @@ function initMap() {
       handleLocationError(false, infoWindow, map.getCenter());
     }
   });
+  var directionService= new google.maps.directionService();
+  
+  var directionsDisplay= new google.maps.DirectionsRenderer();
+
+  directionsDisplay.setMap(map);
+
+  // funtion for calculate the road
+  function calcuRoad(){
+    var request= {
+      origin: document.getElementsById("Start").value,
+      destination : document.getElementById("destination").value,
+      travelMode: google.maps.travelMode.DRIVING,// WALKING, BYCYCLING AND TRANSIT
+      unitSystem: google.maps.UnitSystem.IMPERIAL
+    }
+    // pass the request to the map metohod
+    directionService.route(request,(result,status)=>{
+      if(status==google.maps.DirectionStatus.OK){
+        // get distance and Time
+        const output=document.querySelector("#output")
+        output.innerHTML= "<div class= 'alert-info'> From:"+ document.getElementById("start").value+ ".<br />TO:"+ document.getElementById("Ziel".value + ".<br /> Driving distance <i class='fas fa-road'></i>"+result.routes[0].legs[0].distance.text +"<br />Duration <i class= 'fa-hourglass-start'></i>:"+result.routes[0].legs[0].duration.text + ".</div");
+
+        //display route
+        directionsDisplay.setDirections(result);
+        
+        
+      }
+      else{
+        //display route from map
+        directionsDisplay.setDirections({routes:[]});
+
+        //center map in spain
+        map.setCenter(lat);
+
+        //show error message
+        output.innerHTML="<div class 'alert-danger'><i class 'fas fa-exclamation-triangle'></i Could not retreive driving ditance </div";
+
+      }
+    })
+  }
+
+
+
 }
 //This function handles error if geolocation does not work
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -75,6 +117,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       : "Error: Your browser doesn't support geolocation."
   );
   infoWindow.open(map);
+
 }
 
 window.initMap = initMap;
