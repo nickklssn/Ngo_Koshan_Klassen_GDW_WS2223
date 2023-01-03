@@ -1,5 +1,3 @@
-require('dotenv').config(); // Include dotenv file to store the API-Keys
-
 // Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
@@ -17,6 +15,7 @@ function initMap() {
 
   // This function sets a custom marker depending on user input
   function setCustomMarker() {
+
     let marker = new google.maps.Marker({
       position: null,
       map: map,
@@ -67,6 +66,57 @@ function initMap() {
       handleLocationError(false, infoWindow, map.getCenter());
     }
   });
+
+////////////////////
+// Elevations API //
+////////////////////
+
+  // Function to calculate average gain of a route
+  function getAverageElevationGain(startLat, startLng, endLat, endLng) {
+    // Create elevation object
+    var elevator = new google.maps.ElevationService({
+      apiKey: 'AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0'
+    });
+    // Set start and end point
+    var routeCoordinates = [
+      {lat: startLat, lng: startLng},  // Start
+      {lat: endLat, lng: endLng}       // End
+    ];
+
+    // Define the path by assign latitude and longitude
+    var path = routeCoordinates.map(coordinate => new google.maps.LatLng(coordinate.lat, coordinate.lng));
+
+    // Create a Request
+    var request = {
+      path: path,
+      samples: 256  // Amount of samples
+    };
+
+    // Do a request along the path to get heights
+    elevator.getElevationAlongPath(request, function(results, status) {
+      if (status === 'OK') {
+        // Calculate the average gain of the route
+        var totalElevationGain = 0;
+        var previousElevation = 0;
+        for (var i = 0; i < results.length; i++) {
+          var elevation = results[i].elevation;
+          if (i > 0) {
+            totalElevationGain += Math.max(0, elevation - previousElevation);
+          }
+          previousElevation = elevation;
+        }
+        var averageElevationGain = totalElevationGain / (results.length - 1);
+        var roundAverageElevationGain = averageElevationGain.toFixed(2);
+        console.log("Die durchschnittliche Steigung der Route beträgt: " + roundAverageElevationGain + " Meter pro Kilometer.");
+      } else {
+        console.error("Es ist ein Fehler beim Abrufen der Höhenpunkte aufgetreten: " + status);
+      }
+    });
+  }
+
+  // Test from Cologne -> Gummersbach
+  getAverageElevationGain(50.94148075038749, 6.958224297010802, 51.02304632512543, 7.561820898187938);
+
 }
 //This function handles error if geolocation does not work
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -77,45 +127,11 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       : "Error: Your browser doesn't support geolocation."
   );
   infoWindow.open(map);
+  
 }
 
 window.initMap = initMap;
 
+// Rufe die Funktion auf und übergebe Start- und Endpunkt-Koordinaten
 
-// Tankerkönig-API 
 
-async function getFuelPrices(latitude, longitude, radius) {
-  const apiKey = process.env.TANKERKOENIG_API_KEY;
-  const apiUrl = 'https://creativecommons.tankerkoenig.de/json/';
-
-  // Die Anfrage-Parameter für die API definieren
-  const params = {
-    lat: latitude,
-    lng: longitude,
-    rad: radius,
-    type: 'all',
-    apikey: apiKey
-  };
-
-  // Die URL für die Anfrage erstellen
-  const queryString = Object.keys(params)
-    .map(key => key + '=' + params[key])
-    .join('&');
-  const url = apiUrl + 'list.php?' + queryString;
-
-  // Die Anfrage senden und das Ergebnis verarbeiten
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Beispielaufruf
-const fuelPrices = await getFuelPrices(51.023111857618346, 7.562088134538031, 10);
-
-// Preise für Seperate Spritpreise
-const gasolinePrice = fuelPrices.stations[0].e5;
-const dieselPrice = fuelPrices.stations[0].diesel;
