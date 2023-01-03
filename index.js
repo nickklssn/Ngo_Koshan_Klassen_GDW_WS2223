@@ -70,21 +70,25 @@ function initMap() {
   var directionsDisplay= new google.maps.DirectionsRenderer();
 
   directionsDisplay.setMap(map);
+  
 
   // funtion for calculate the road
   function calcuRoad(){
     var request= {
-      origin: document.getElementsById("Start").value,
-      destination : document.getElementById("destination").value,
+      origin: document.getElementsById("from").value,
+      destination : document.getElementById("to").value,
+    
       travelMode: google.maps.travelMode.DRIVING,// WALKING, BYCYCLING AND TRANSIT
       unitSystem: google.maps.UnitSystem.IMPERIAL
     }
+ 
     // pass the request to the map metohod
+    
     directionService.route(request,(result,status)=>{
       if(status==google.maps.DirectionStatus.OK){
         // get distance and Time
         const output=document.querySelector("#output")
-        output.innerHTML= "<div class= 'alert-info'> From:"+ document.getElementById("start").value+ ".<br />TO:"+ document.getElementById("Ziel".value + ".<br /> Driving distance <i class='fas fa-road'></i>"+result.routes[0].legs[0].distance.text +"<br />Duration <i class= 'fa-hourglass-start'></i>:"+result.routes[0].legs[0].duration.text + ".</div");
+        output.innerHTML= "<div class= 'alert-info'> From:"+ document.getElementById("from").value+ ".<br />TO:"+ document.getElementById("to".value +result.routes[0].legs[0].distance.text +result.routes[0].legs[0].duration.text + ".</div");
 
         //display route
         directionsDisplay.setDirections(result);
@@ -99,14 +103,22 @@ function initMap() {
         map.setCenter(lat);
 
         //show error message
-        output.innerHTML="<div class 'alert-danger'><i class 'fas fa-exclamation-triangle'></i Could not retreive driving ditance </div";
+        output.innerHTML="<div class 'alert-danger'><i class 'fas fa-exclamation-triangle'></i Could not retreive driving distance </div";
 
       }
     })
   }
 
+var options={
+  types: ["cities"]
 
+}
+var input1= document.getElementById("from")
+var autocomplete=new google.maps.places.Autocomplete(input1,options)
 
+var input2= document.getElementById("to")
+var autocomplete=new google.maps.places.Autocomplete(input2,options)
+calcuRoad();
 }
 //This function handles error if geolocation does not work
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
