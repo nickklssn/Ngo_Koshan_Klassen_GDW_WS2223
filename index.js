@@ -9,6 +9,60 @@ function initMap() {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 6,
   });
+  roadDirection();
+  calculateTime();
+
+  
+  function roadDirection() {
+  // Create a DirectionsService object to request directions
+  var directionsService = new google.maps.DirectionsService();
+
+  // Create a DirectionsRenderer object to display the directions
+  var directionsRenderer = new google.maps.DirectionsRenderer();
+  directionsRenderer.setMap(map);  // The map to display the directions on
+
+  // Set the origin and destination for the directions
+  var request = {
+    origin: 'Köln, Germany',
+    destination: 'Gummersbach, Germany',
+    travelMode: 'DRIVING'  // Mode of transport
+  };
+
+  // Request the directions and render them on the map
+  directionsService.route(request, function(response, status) {
+    if (status == 'OK') {
+      directionsRenderer.setDirections(response);
+    }
+  });
+}
+
+
+function calculateTime() {
+  // Create a DirectionsService object to request directions
+  var directionsService = new google.maps.DirectionsService();
+
+  // Set the origin and destination for the directions
+  var request = {
+    origin: 'Köln, DE',
+    destination: 'Gummersbach, DE',
+    travelMode: 'DRIVING'  // Mode of transport
+  };
+
+  // Request the directions and get the duration
+  directionsService.route(request, function(response, status) {
+    if (status == 'OK') {
+      // Get the duration in seconds
+      var duration = response.routes[0].legs[0].duration.value;
+
+      // Convert the duration to hours and minutes
+      var hours = Math.floor(duration / 3600);
+      var minutes = Math.floor((duration % 3600) / 60);
+
+      console.log('Duration: ' + hours + 'h ' + minutes + 'm');
+    }
+  });
+}
+
   infoWindow = new google.maps.InfoWindow();
 
   var subButton = document.getElementById("subButton");
@@ -66,62 +120,9 @@ function initMap() {
     }
   });
 
-  var directionService= new google.maps.DirectionsService();
+
+    
   
-  var directionsDisplay= new google.maps.DirectionsRenderer();
-
-  directionsDisplay.setMap(map);
-
-
-  // funtion for calculate the road
-  function calcuRoad(){
-  
-    
-    var request= {
-      origin: document.getElementById("from").value,
-      destination : document.getElementById("to").value,
-    
-      travelMode: google.maps.TravelMode.DRIVING,// WALKING, BYCYCLING AND TRANSIT
-      unitSystem: google.maps.UnitSystem.IMPERIAL
-    }
- 
-    // pass the request to the map metohod
-    
-    directionService.route(request,(result,status)=>{
-      if(status==google.maps.DirectionsStatus.OK){
-        // get distance and Time
-        const output=document.querySelector("#output")
-        output.innerHTML= "<div class= 'alert-info'> From:"+ document.getElementById("from").value+ ".<br />TO:"+ document.getElementById("to".value +result.routes[0].legs[0].distance.text +result.routes[0].legs[0].duration.text + ".</div");
-
-        //display route
-        directionsDisplay.setDirections(result);
-        
-        
-      }
-      else{
-    //  //display route from map
-      directionsDisplay.setDirections({routes:[]});
-
-        //center map in spain
-        map.setCenter(lat);
-
-        //show error message
-        output.innerHTML="<div class 'alert-danger'><i class 'fas fa-exclamation-triangle'></i Could not retreive driving distance </div";
-
-      }
-    })
-  }
-
-var options={
-  types: ["cities"]
-
-}
-var input1= document.getElementById("from")
-var autocomplete=new google.maps.places.Autocomplete(input1,options)
-
-var input2= document.getElementById("to")
-var autocomplete=new google.maps.places.Autocomplete(input2,options)
-calcuRoad();
 }
 //This function handles error if geolocation does not work
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
