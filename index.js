@@ -65,27 +65,30 @@ function initMap() {
       handleLocationError(false, infoWindow, map.getCenter());
     }
   });
-  var directionService= new google.maps.directionService();
+
+  var directionService= new google.maps.DirectionsService();
   
   var directionsDisplay= new google.maps.DirectionsRenderer();
 
   directionsDisplay.setMap(map);
-  
+
 
   // funtion for calculate the road
   function calcuRoad(){
+  
+    
     var request= {
-      origin: document.getElementsById("from").value,
+      origin: document.getElementById("from").value,
       destination : document.getElementById("to").value,
     
-      travelMode: google.maps.travelMode.DRIVING,// WALKING, BYCYCLING AND TRANSIT
+      travelMode: google.maps.TravelMode.DRIVING,// WALKING, BYCYCLING AND TRANSIT
       unitSystem: google.maps.UnitSystem.IMPERIAL
     }
  
     // pass the request to the map metohod
     
     directionService.route(request,(result,status)=>{
-      if(status==google.maps.DirectionStatus.OK){
+      if(status==google.maps.DirectionsStatus.OK){
         // get distance and Time
         const output=document.querySelector("#output")
         output.innerHTML= "<div class= 'alert-info'> From:"+ document.getElementById("from").value+ ".<br />TO:"+ document.getElementById("to".value +result.routes[0].legs[0].distance.text +result.routes[0].legs[0].duration.text + ".</div");
@@ -96,8 +99,8 @@ function initMap() {
         
       }
       else{
-        //display route from map
-        directionsDisplay.setDirections({routes:[]});
+    //  //display route from map
+      directionsDisplay.setDirections({routes:[]});
 
         //center map in spain
         map.setCenter(lat);
