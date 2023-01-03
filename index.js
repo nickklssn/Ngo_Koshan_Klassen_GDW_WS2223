@@ -13,6 +13,16 @@ function initMap() {
   calculateTime();
 
   
+  var autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('origin'),
+    { types: ['geocode'] }
+
+    
+  );
+  var autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('dest'),
+    { types: ['geocode'] }
+  );
   function roadDirection() {
   // Create a DirectionsService object to request directions
   var directionsService = new google.maps.DirectionsService();
