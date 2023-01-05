@@ -29,4 +29,4 @@ async function fetchFuelPricesJSON() {
   ];
 }
 
-fetchFuelPricesJSON().then((data) => console.log(data));
+module.exports = fetchFuelPricesJSON().then((data) => console.log(data));
