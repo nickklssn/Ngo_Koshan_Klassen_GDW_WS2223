@@ -1,0 +1,25 @@
+[
+  {
+    "carId": 1,
+    "name": "Porsche 911",
+    "fuelType": "E5",
+    "minConsumPer100Liter": 9.4,
+    "manConsumPer100Liter": 12
+  },
+
+  {
+    "carId": 2,
+    "name": "Mercedes AMG",
+    "fuelType": "Diesel",
+    "minConsumPer100Liter": 7.1,
+    "manConsumPer100Liter": 16
+  },
+
+  {
+    "carId": 3,
+    "name": "Audi A7",
+    "fuelType": "E10",
+    "minConsumPer100Liter": 4.9,
+    "manConsumPer100Liter": 8
+  }
+]
