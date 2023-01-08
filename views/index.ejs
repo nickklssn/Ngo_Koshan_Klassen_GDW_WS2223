@@ -14,33 +14,29 @@
 
         <label for="lng">Lng</label>
         <input type="number" id="lng" />
-      <!--  <input type= "text" id="origin" placeholder="Start"/>
-        <input type= "text" id="destination" placeholder="Ziel"/>
-      -->
-      <dif class="form-group">
+      <div class="form-group">
         <label for="origin"></label>
         <input id="origin" type="text" placeholder="Enter origin">
         <label for="dest"></label>
         <input id="dest" type="text" placeholder="Enter origin">
-      </dif>
+      </div>
         <button id="subButton" type="button">Submit</button>
       </form>
     </div>
-<dif class= "container-fluid">
-  <div id="map"></div>
 
-</dif>
-<dif id="output"></dif>
-</dif>
-    <!-- 
+<div class= "container-fluid"> </div>
+ <div id="output"></div>
+
+
+
+
+
      The `defer` attribute causes the callback to execute after the full HTML
      document has been parsed. For non-blocking uses, avoiding race conditions,
      and consistent behavior across browsers, consider loading using Promises
      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
-    -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly"
-      defer
-    ></script>
+ 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly" defer></script>
+
   </body>
 </html>

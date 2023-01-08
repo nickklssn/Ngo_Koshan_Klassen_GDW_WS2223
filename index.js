@@ -79,6 +79,7 @@ function calculateTime() {
 
   // This function sets a custom marker depending on user input
   function setCustomMarker() {
+
     let marker = new google.maps.Marker({
       position: null,
       map: map,
@@ -129,12 +130,8 @@ function calculateTime() {
       handleLocationError(false, infoWindow, map.getCenter());
     }
   });
-
-
-    
   
-}
-//This function handles error if geolocation does not work
+  //This function handles error if geolocation does not work
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(
@@ -144,6 +141,61 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   );
   infoWindow.open(map);
 
+
+
+// Elevations API //
+
+
+  // Function to calculate average gain of a route
+  function getAverageElevationGain(startLat, startLng, endLat, endLng) {
+    // Create elevation object
+    var elevator = new google.maps.ElevationService({
+      apiKey: 'AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0'
+    });
+    // Set start and end point
+    var routeCoordinates = [
+      {lat: startLat, lng: startLng},  // Start
+      {lat: endLat, lng: endLng}       // End
+    ];
+
+    // Define the path by assign latitude and longitude
+    var path = routeCoordinates.map(coordinate => new google.maps.LatLng(coordinate.lat, coordinate.lng));
+
+    // Create a Request
+    var request = {
+      path: path,
+      samples: 256  // Amount of samples
+    };
+
+    // Do a request along the path to get heights
+    elevator.getElevationAlongPath(request, function(results, status) {
+      if (status === 'OK') {
+        // Calculate the average gain of the route
+        var totalElevationGain = 0;
+        var previousElevation = 0;
+        for (var i = 0; i < results.length; i++) {
+          var elevation = results[i].elevation;
+          if (i > 0) {
+            totalElevationGain += Math.max(0, elevation - previousElevation);
+          }
+          previousElevation = elevation;
+        }
+        var averageElevationGain = totalElevationGain / (results.length - 1);
+        var roundAverageElevationGain = averageElevationGain.toFixed(2);
+        console.log("Die durchschnittliche Steigung der Route beträgt: " + roundAverageElevationGain + " Meter pro Kilometer.");
+      } else {
+        console.error("Es ist ein Fehler beim Abrufen der Höhenpunkte aufgetreten: " + status);
+      }
+    });
+  }
+
+  // Test from Cologne -> Gummersbach
+  getAverageElevationGain(50.94148075038749, 6.958224297010802, 51.02304632512543, 7.561820898187938);
 }
 
 window.initMap = initMap;
+// Rufe die Funktion auf und übergebe Start- und Endpunkt-Koordinaten
+
+
+
+
