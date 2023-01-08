@@ -1,6 +1,7 @@
 // Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
+
 // locate you.
 let map, infoWindow;
 
@@ -135,6 +136,7 @@ function initMap() {
         : "Error: Your browser doesn't support geolocation."
     );
     infoWindow.open(map);
+  }
 
     // Elevations API //
 
@@ -190,15 +192,89 @@ function initMap() {
       });
     }
 
-    // Test from Cologne -> Gummersbach
+    // Test coordinates from Cologne -> Gummersbach
     getAverageElevationGain(
-      50.94148075038749,
-      6.958224297010802,
-      51.02304632512543,
-      7.561820898187938
+      50.94148075038749, // C1 Lat
+      6.958224297010802, // C1 Lng
+      51.02304632512543, // C2 Lat
+      7.561820898187938  // C2 Lng
     );
-  }
+
 }
 
+////////////////////////////////////////////////////////////
+// Calculation of the range for the budget and the fuel type
+
+async function getCarData(carId) {
+
+  // request
+  let response = await fetch('/car/car.json');
+  // convert into json format
+  let carData = await response.json();
+
+  // search car by carId
+  let car = carData.find(car => car.carId === carId);
+
+  return car;
+}
+
+async function fetchFuelPricesJSON() {
+  const url ="https://creativecommons.tankerkoenig.de/json/list.php?lat=52.6056456&lng=8.3707878&rad=1.5&sort=dist&type=all&apikey=0d666ee8-9682-db0a-4859-b167d84d84a4";
+  const response = await fetch(url);
+  const data = await response.json();
+  const firstStation = data.stations[0];
+  return {"fueltypes": [
+    {
+      fuelId: 1,
+      name: "Diesel",
+      pricePerLiter: firstStation.diesel,
+    },
+
+    {
+      fuelId: 2,
+      name: "E5",
+      pricePerLiter: firstStation.e5,
+    },
+
+    {
+      fuelId: 3,
+      name: "E10",
+      pricePerLiter: firstStation.e10,
+    },
+  ]
+}
+}
+fetchFuelPricesJSON().then((data) => console.log(data));
+
+// calculates the amount of fuel buyable with a budget
+async function calculateFuelAmount(budget, fuelType) {
+
+  let fuelData = await fetchFuelPricesJSON(fuelType);
+
+  for(const fuel in fuelData.fueltypes) {
+    let obj = fuelData.fueltypes[fuel];
+    if(obj.name === fuelType) {
+
+      let fuelAmount = budget / obj.pricePerLiter;
+      return fuelAmount;
+    }
+  }
+
+  return "Fehlerhafter Kraftstofftyp";
+}
+
+async function testCalc() {
+  let carId = 1;
+  let budget = 10;
+
+  let carData = await getCarData(carId);
+
+  await calculateFuelAmount(budget, carData.fuelType);
+  let fuelAmount = await calculateFuelAmount(budget, carData.fuelType);
+
+  console.log(`Du kannst mit einem Budget von ${budget} Euro ${fuelAmount} Liter ${carData.fueltype} kaufen.`);
+}
+
+testCalc();
+
 window.initMap = initMap;
-// Rufe die Funktion auf und übergebe Start- und Endpunkt-Koordinaten
