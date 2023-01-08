@@ -9,6 +9,70 @@ function initMap() {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 6,
   });
+  roadDirection();
+  calculateTime();
+
+  
+  var autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('origin'),
+    { types: ['geocode'] }
+
+    
+  );
+  var autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('dest'),
+    { types: ['geocode'] }
+  );
+  function roadDirection() {
+  // Create a DirectionsService object to request directions
+  var directionsService = new google.maps.DirectionsService();
+
+  // Create a DirectionsRenderer object to display the directions
+  var directionsRenderer = new google.maps.DirectionsRenderer();
+  directionsRenderer.setMap(map);  // The map to display the directions on
+
+  // Set the origin and destination for the directions
+  var request = {
+    origin: 'Köln, Germany',
+    destination: 'Gummersbach, Germany',
+    travelMode: 'DRIVING'  // Mode of transport
+  };
+
+  // Request the directions and render them on the map
+  directionsService.route(request, function(response, status) {
+    if (status == 'OK') {
+      directionsRenderer.setDirections(response);
+    }
+  });
+}
+
+
+function calculateTime() {
+  // Create a DirectionsService object to request directions
+  var directionsService = new google.maps.DirectionsService();
+
+  // Set the origin and destination for the directions
+  var request = {
+    origin: 'Köln, DE',
+    destination: 'Gummersbach, DE',
+    travelMode: 'DRIVING'  // Mode of transport
+  };
+
+  // Request the directions and get the duration
+  directionsService.route(request, function(response, status) {
+    if (status == 'OK') {
+      // Get the duration in seconds
+      var duration = response.routes[0].legs[0].duration.value;
+
+      // Convert the duration to hours and minutes
+      var hours = Math.floor(duration / 3600);
+      var minutes = Math.floor((duration % 3600) / 60);
+
+      console.log('Duration: ' + hours + 'h ' + minutes + 'm');
+    }
+  });
+}
+
   infoWindow = new google.maps.InfoWindow();
 
   var subButton = document.getElementById("subButton");
@@ -65,6 +129,10 @@ function initMap() {
       handleLocationError(false, infoWindow, map.getCenter());
     }
   });
+
+
+    
+  
 }
 //This function handles error if geolocation does not work
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -75,6 +143,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       : "Error: Your browser doesn't support geolocation."
   );
   infoWindow.open(map);
+
 }
 
 window.initMap = initMap;
