@@ -16,35 +16,53 @@
           <label for="longitude">Longitude</label>
           <input type="number" id="lng" />
 
-          <button id="subButton" class="row-button" type="button">Standort anzeigen</button>
+          <button id="subButton" class="row-button" type="button">
+            Standort anzeigen
+          </button>
         </div>
-        
+
         <div class="form-group">
           <label for="origin">Origin</label>
-          <input id="origin" type="text" placeholder="Enter origin">
+          <input id="origin" type="text" placeholder="Enter origin" />
 
           <label for="dest">Destination</label>
-          <input id="dest" type="text" placeholder="Enter destination">
+          <input id="dest" type="text" placeholder="Enter destination" />
 
-          <button id="subButton" class="row-button" type="button">Route anzeigen</button>
+          <button id="subButton" class="row-button" type="button">
+            Route anzeigen
+          </button>
         </div>
 
         <div class="form-group">
           <label for="budget">Budget</label>
-          <input id="origin" type="number" placeholder="Enter budget">
+          <input id="budget" type="number" placeholder="Enter budget" />
 
           <label for="dest">Range</label>
-          <input id="dest" type="text" placeholder="Text">
+          <input id="dest" type="text" placeholder="Text" />
 
-          <button id="calcButton" class="row-button" type="button">Umrechnen</button>
+          <button
+            id="calcButton"
+            class="row-button"
+            onclick="testCalc()"
+            type="button"
+          >
+            Umrechnen
+          </button>
         </div>
 
         <p>Reichweite: <span>-</span></p>
 
-        <span class="question">Welchen Treibstoff verwendet ihr Auto?</span><br>
+        <span class="question">Welchen Treibstoff verwendet ihr Auto?</span
+        ><br />
         <div class="form-group">
           <div class="radio-choice">
-            <input type="radio" id="diesel" name="fuel" value="diesel" checked="checked"/>
+            <input
+              type="radio"
+              id="diesel"
+              name="fuel"
+              value="diesel"
+              checked="checked"
+            />
             <label for="diesel">Diesel</label>
           </div>
           <div class="radio-choice">
@@ -59,15 +77,17 @@
       </form>
     </div>
 
-<div class= "container-fluid"> </div>
- <div id="output"></div>
+    <div class="container-fluid"></div>
+    <div id="output"></div>
 
-     <!-- The `defer` attribute causes the callback to execute after the full HTML
+    <!-- The `defer` attribute causes the callback to execute after the full HTML
      document has been parsed. For non-blocking uses, avoiding race conditions,
      and consistent behavior across browsers, consider loading using Promises
      with https://www.npmjs.com/package/@googlemaps/js-api-loader. -->
- 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly" defer></script>
 
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly"
+      defer
+    ></script>
   </body>
 </html>
