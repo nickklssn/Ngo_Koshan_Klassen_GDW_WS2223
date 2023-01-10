@@ -67,6 +67,12 @@ button {
   color: #fff;
   padding: 0.5rem 1rem;
   text-align: center;
+  transition: 0.1s all;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkgreen;
 }
 
 .row-button {

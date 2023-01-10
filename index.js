@@ -1,3 +1,5 @@
+import * as data from './fuel.js';
+
 // Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
@@ -248,6 +250,7 @@ fetchFuelPricesJSON().then((data) => console.log(data));
 
 // calculates the amount of fuel buyable with a budget
 async function calculateFuelAmount(budget, fuelType) {
+
   let fuelData = await fetchFuelPricesJSON(fuelType);
 
   for (const fuel in fuelData.fueltypes) {
@@ -261,12 +264,20 @@ async function calculateFuelAmount(budget, fuelType) {
   return "Fehlerhafter Kraftstofftyp";
 }
 
-document.getElementById("calcButton").addEventListener("click", testCalc);
+async function calculateRange(fuelAmount, carId) {
 
-async function testCalc() {
-  let carId = 1;
-  let budget = 10;
+  let car = await getCarData(carId);
+  let minCon = car.minConsumPer100Kilometer;
+  let range = fuelAmount / (minCon / 100);
 
+  return range;
+
+}
+
+document.getElementById("calcButton").addEventListener("click", calc);
+
+async function calc() {
+  const fuelTypeInput = document.getElementById("fueltype").value;
   const budgetInput = document.getElementById("budget").value;
 
   let carData = await getCarData(carId);
@@ -274,11 +285,13 @@ async function testCalc() {
   await calculateFuelAmount(budgetInput, carData.fuelType);
   let fuelAmount = await calculateFuelAmount(budgetInput, carData.fuelType);
 
-  console.log(
-    `Du kannst mit einem Budget von ${budgetInput} Euro ${fuelAmount} Liter ${carData.fueltype} kaufen.`
-  );
-}
+  calculateRange(fuelAmount, carId);
 
-/* testCalc(); */
+  console.log(
+    `Es kann mit einem Budget von ${budgetInput} Euro ${fuelAmount.toFixed} Liter ${fuelTypeInput} kaufen.`
+  );
+
+  calculateRange(calculateFuelAmount(budgetInput, carData.fuelType), carData);
+}
 
 window.initMap = initMap;
