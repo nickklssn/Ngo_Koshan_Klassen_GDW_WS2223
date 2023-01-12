@@ -3,7 +3,6 @@ const app = express();
 const port = 3000;
 const path = require("path");
 const fs = require("fs");
-const fetch = require("node-fetch");
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname)));
@@ -50,7 +49,7 @@ app.delete("/car", function (req, res) {
 app.post("/car", function (req, res) {
   var car = JSON.stringify(req.body);
 
-  fs.writeFile("data/car.json", driver, (err) => {
+  fs.writeFile("data/car.json", car, (err) => {
     if (err) {
       throw err;
     }
