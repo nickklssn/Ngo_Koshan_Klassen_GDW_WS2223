@@ -264,34 +264,32 @@ async function calculateFuelAmount(budget, fuelType) {
   return "Fehlerhafter Kraftstofftyp";
 }
 
-async function calculateRange(fuelAmount, carId) {
+async function calculateMaxRange(fuelAmount, carId) {
 
   let car = await getCarData(carId);
   let minCon = car.minConsumPer100Kilometer;
-  let range = fuelAmount / (minCon / 100);
-
-  return range;
-
+  let maxCon = car.maxConsumPer100Kilometer;
+  return {minRange: fuelAmount / (maxCon / 100), maxRange: fuelAmount / (minCon / 100)};
 }
 
 document.getElementById("calcButton").addEventListener("click", calc);
 
 async function calc() {
-  const fuelTypeInput = document.getElementById("fueltype").value;
+  const carId = Number(document.querySelector('input[name="fueltype"]:checked').value);
   const budgetInput = document.getElementById("budget").value;
 
   let carData = await getCarData(carId);
+  console.log(carData);
 
-  await calculateFuelAmount(budgetInput, carData.fuelType);
   let fuelAmount = await calculateFuelAmount(budgetInput, carData.fuelType);
 
-  calculateRange(fuelAmount, carId);
+  let range = await calculateMaxRange(fuelAmount, carId);
 
   console.log(
-    `Es kann mit einem Budget von ${budgetInput} Euro ${fuelAmount.toFixed} Liter ${fuelTypeInput} kaufen.`
+    `Es kann mit einem Budget von ${budgetInput} Euro ${fuelAmount.toFixed(2)} Liter ${carData.fuelType} kaufen.
+     Damit kommen Sie bis zu ${range.maxRange.toFixed(2)} Kilometer und mindestens ${range.minRange.toFixed(2)} weit`
   );
 
-  calculateRange(calculateFuelAmount(budgetInput, carData.fuelType), carData);
 }
 
 window.initMap = initMap;

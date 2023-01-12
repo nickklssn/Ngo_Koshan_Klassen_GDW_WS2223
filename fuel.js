@@ -9,7 +9,7 @@ async function fetchFuelPricesJSON() {
   const data = await response.json();
   const firstStation = data.stations[0];
   return {
-    fueltypes:[
+    "fueltypes":[
       {
         fuelId: 1,
         name: "Diesel",
