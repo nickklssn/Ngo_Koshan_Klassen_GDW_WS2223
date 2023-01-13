@@ -7,36 +7,85 @@
   <body>
     <div id="map"></div>
 
-    <div>
+    <div class="form-wrapper">
       <form>
-        <label for="lat">Lat</label>
-        <input type="number" id="lat" />
+        <div class="form-group">
+          <label for="latitude">Latitude</label>
+          <input type="number" id="lat" />
 
-        <label for="lng">Lng</label>
-        <input type="number" id="lng" />
-      <div class="form-group">
-        <label for="origin"></label>
-        <input id="origin" type="text" placeholder="Enter origin">
-        <label for="dest"></label>
-        <input id="dest" type="text" placeholder="Enter origin">
-      </div>
-        <button id="subButton" type="button">Submit</button>
+          <label for="longitude">Longitude</label>
+          <input type="number" id="lng" />
+
+          <button id="subButton" class="row-button" type="button">
+            Standort anzeigen
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="origin">Origin</label>
+          <input id="origin" type="text" placeholder="Enter origin" />
+
+          <label for="dest">Destination</label>
+          <input id="dest" type="text" placeholder="Enter destination" />
+
+          <button id="subButton" class="row-button" type="button">
+            Route anzeigen
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="budget">Budget</label>
+          <input id="budget" type="number" placeholder="Enter budget" />
+
+          <label for="dest">Range</label>
+          <input id="dest" type="text" placeholder="Text" />
+
+          <button
+            id="calcButton"
+            class="row-button"
+            type="button"
+          >
+            Umrechnen
+          </button>
+        </div>  
+
+        <span class="question">Welches Auto fahren Sie?</span><br />
+        <div class="form-group">
+          <div class="radio-choice">
+            <input
+              type="radio"
+              id="e5"
+              name="fueltype"
+              value="1"
+              checked="checked"
+            />
+            <label for="e5">Porsche 911</label>
+          </div>
+          <div class="radio-choice">
+            <input type="radio" id="diesel " name="fueltype" value="2" />
+            <label for="diesel">Mercedes AMG</label>
+          </div>
+          <div class="radio-choice">
+            <input type="radio" id="e10" name="fueltype" value="3" />
+            <label for="e10">Audi A7</label>
+          </div>
+        </div>
       </form>
     </div>
 
-<div class= "container-fluid"> </div>
- <div id="output"></div>
+    <div class="container-fluid">
+      <p id="promptText"></p>
+    </div>
+    <div id="output"></div>
 
-
-
-
-
-     The `defer` attribute causes the callback to execute after the full HTML
+    <!-- The `defer` attribute causes the callback to execute after the full HTML
      document has been parsed. For non-blocking uses, avoiding race conditions,
      and consistent behavior across browsers, consider loading using Promises
-     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
- 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly" defer></script>
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader. -->
 
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly"
+      defer
+    ></script>
   </body>
 </html>
