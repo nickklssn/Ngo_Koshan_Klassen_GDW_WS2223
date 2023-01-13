@@ -3,23 +3,23 @@
     "carId": 1,
     "name": "Porsche 911",
     "fuelType": "E5",
-    "minConsumPer100Liter": 9.4,
-    "manConsumPer100Liter": 12
+    "minConsumPer100Kilometers": 9.4,
+    "maxConsumPer100Kilometers": 12
   },
 
   {
     "carId": 2,
     "name": "Mercedes AMG",
     "fuelType": "Diesel",
-    "minConsumPer100Liter": 7.1,
-    "manConsumPer100Liter": 16
+    "minConsumPer100Kilometers": 7.1,
+    "maxConsumPer100Kilometers": 16
   },
 
   {
     "carId": 3,
     "name": "Audi A7",
     "fuelType": "E10",
-    "minConsumPer100Liter": 4.9,
-    "manConsumPer100Liter": 8
+    "minConsumPer100Kilometers": 4.9,
+    "maxConsumPer100Kilometers": 8
   }
 ]
