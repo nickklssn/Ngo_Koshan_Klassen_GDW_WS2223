@@ -1,7 +1,6 @@
-const axios = require("axios");
-const { fuel } = require("./fuel.js");
+import axios from 'axios';
 
-function sights() {
+export function sights(lng, lat, radius) {
   var config = {
     method: "get",
     url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lng}%2C${lat}&radius=${radius}&type=tourist_attraction&key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0`,
@@ -13,7 +12,7 @@ function sights() {
       var sights = JSON.stringify(response.data);
       var parsedData = JSON.parse(sights);
       console.log(parsedData);
-    })
+    }) 
     .catch(function (error) {
       console.log(error);
     });
@@ -21,4 +20,3 @@ function sights() {
   console.log(fuel);
   }
 
-  module.exports = { sights };

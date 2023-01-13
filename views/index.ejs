@@ -3,6 +3,7 @@
     <title>Grundlagen des Web</title>
     <link rel="stylesheet" type="text/css" href="../style.css" />
     <script type="module" src="../index.js"></script>
+    <script type="module" src="../sights.js"></script>
   </head>
   <body>
     <div id="map"></div>
@@ -28,7 +29,7 @@
           <label for="dest">Destination</label>
           <input id="dest" type="text" placeholder="Enter destination" />
 
-          <button id="subButton" class="row-button" type="button">
+          <button id="routeButton" class="row-button" type="button">
             Route anzeigen
           </button>
         </div>
@@ -38,7 +39,7 @@
           <input id="budget" type="number" placeholder="Enter budget" />
 
           <label for="dest">Range</label>
-          <input id="dest" type="text" placeholder="Text" />
+          <input id="dest" type="number" placeholder="Enter Range" />
 
           <button
             id="calcButton"
