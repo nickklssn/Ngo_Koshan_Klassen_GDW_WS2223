@@ -12,6 +12,21 @@ function initMap() {
   roadDirection();
   calculateTime();
 
+  document.getElementById("subButton").addEventListener("click", function () {
+    roadDirection(
+      document.getElementById("origin").value,
+      document.getElementById("dest").value
+    );
+  });
+
+  //for Duration
+
+  document.getElementById("subButton").addEventListener("click", function () {
+    calculateTime(
+      document.getElementById("origin").value,
+      document.getElementById("dest").value
+    );
+  });
   
   var autocomplete = new google.maps.places.Autocomplete(
     document.getElementById('origin'),
@@ -23,18 +38,23 @@ function initMap() {
     document.getElementById('dest'),
     { types: ['geocode'] }
   );
-  function roadDirection() {
+
+  var origin = document.getElementById("origin").value;
+  var destination=document.getElementById("dest").value;
+
+
+  function roadDirection(origin,destination) {
   // Create a DirectionsService object to request directions
   var directionsService = new google.maps.DirectionsService();
 
   // Create a DirectionsRenderer object to display the directions
   var directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map);  // The map to display the directions on
-
+  
   // Set the origin and destination for the directions
   var request = {
-    origin: 'Köln, Germany',
-    destination: 'Gummersbach, Germany',
+    origin: origin,
+    destination: destination,
     travelMode: 'DRIVING'  // Mode of transport
   };
 
@@ -47,14 +67,14 @@ function initMap() {
 }
 
 
-function calculateTime() {
+function calculateTime(origin,destination) {
   // Create a DirectionsService object to request directions
   var directionsService = new google.maps.DirectionsService();
 
   // Set the origin and destination for the directions
   var request = {
-    origin: 'Köln, DE',
-    destination: 'Gummersbach, DE',
+    origin: origin,
+    destination: destination,
     travelMode: 'DRIVING'  // Mode of transport
   };
 
