@@ -13,6 +13,23 @@ function initMap() {
   roadDirection();
   calculateTime();
 
+  document.getElementById("routeButton").addEventListener("click", function () {
+    roadDirection(
+      document.getElementById("origin").value,
+      document.getElementById("dest").value
+    );
+  });
+
+  //for Duration
+
+  document.getElementById("routeButton").addEventListener("click", function () {
+    calculateTime(
+      document.getElementById("origin").value,
+      document.getElementById("dest").value
+    );
+  });
+  
+
   var autocomplete = new google.maps.places.Autocomplete(
     document.getElementById("origin"),
     { types: ["geocode"] }
@@ -21,7 +38,11 @@ function initMap() {
     document.getElementById("dest"),
     { types: ["geocode"] }
   );
-  function roadDirection() {
+
+  var origin = document.getElementById("origin").value;
+  var destination=document.getElementById("dest").value;
+
+  function roadDirection(origin,destination) {
     // Create a DirectionsService object to request directions
     var directionsService = new google.maps.DirectionsService();
 
@@ -31,8 +52,8 @@ function initMap() {
 
     // Set the origin and destination for the directions
     var request = {
-      origin: "Köln, Germany",
-      destination: "Gummersbach, Germany",
+      origin: origin,
+      destination: destination,
       travelMode: "DRIVING", // Mode of transport
     };
 
@@ -44,14 +65,14 @@ function initMap() {
     });
   }
 
-  function calculateTime() {
+  function calculateTime(origin,destination) {
     // Create a DirectionsService object to request directions
     var directionsService = new google.maps.DirectionsService();
 
     // Set the origin and destination for the directions
     var request = {
-      origin: "Köln, DE",
-      destination: "Gummersbach, DE",
+      origin: origin,
+      destination: destination,
       travelMode: "DRIVING", // Mode of transport
     };
 
@@ -72,7 +93,7 @@ function initMap() {
 
   infoWindow = new google.maps.InfoWindow();
 
-  var subButton = document.getElementById("subButton");
+  var subButton = document.getElementById("routeButton");
 
   // This function sets a custom marker depending on user input
   function setCustomMarker() {
@@ -218,7 +239,7 @@ async function getCarData(carId) {
 
 async function FuelPricesJSON() {
   const url =
-    "https://creativecommons.tankerkoenig.de/json/list.php?lat=52.6056456&lng=8.3707878&rad=1.5&sort=dist&type=all&apikey=0d666ee8-9682-db0a-4859-b167d84d84a4";
+    "https://creativecommons.tankerkoenig.de/json/list.php?lat=50.9413&lng=6.95838&rad=1.5&sort=dist&type=all&apikey=0d666ee8-9682-db0a-4859-b167d84d84a4";
   const response = await fetch(url);
   const data = await response.json();
   const firstStation = data.stations[0];
