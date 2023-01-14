@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/nickklssn/Ngo_Koshan_Klassen_GDW_WS2223#readme",
   "dependencies": {
+    "ajv": "^8.12.0",
     "axios": "^1.2.2",
     "dotenv": "^16.0.3",
     "ejs": "^2.5.2",

@@ -1,1 +1,1 @@
-{"name":"Nick","age":"23","carId":1}
+{"1":{"driverId":1,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"2":{"driverId":2,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"3":{"driverId":3,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"4":{"driverId":4,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"11":{"driverId":11,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}}}
