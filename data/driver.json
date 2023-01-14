@@ -1,1 +1,27 @@
-{"1":{"driverId":1,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"2":{"driverId":2,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"3":{"driverId":3,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"4":{"driverId":4,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}},"11":{"driverId":11,"name":"Nick","age":23,"carId":1,"budget":10,"currentPos":{"lat":10,"lng":20}}}
+{
+    "1":{
+        "driverId":1,
+        "name":"Nick",
+        "age":23,
+        "carId":1,
+        "budget":40,
+        "currentPos":{"lat":53.072857712861726,"lng": 8.823942082402748}
+    },
+    "2":{
+        "driverId":2,
+        "name":"Fabian",
+        "age":24,
+        "carId":3,
+        "budget":20,
+        "currentPos":{"lat":51.02289632984686,"lng": 7.562342790969774}
+    },
+    "3":{
+        "driverId":3,
+        "name":"Joash",
+        "age":52,
+        "carId":2,
+        "budget": 100,
+        "currentPos":{"lat":48.77545012096583, "lng": 9.177447694601435}
+    }
+}
+  

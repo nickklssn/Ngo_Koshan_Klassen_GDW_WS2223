@@ -116,6 +116,8 @@ function initMap() {
 
   const locationButton = document.createElement("button");
 
+  let currPos = {lng: 0, lat: 0};
+
   locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("custom-map-control-button");
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
@@ -128,6 +130,9 @@ function initMap() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+
+          currPos = pos;
+          console.log(currPos);
 
           infoWindow.setPosition(pos);
 
@@ -222,97 +227,25 @@ function initMap() {
   );
 }
 
-////////////////////////////////////////////////////////////
-// Calculation of the range for the budget and the fuel type
-
-async function getCarData(carId) {
-  // request
-  let response = await fetch("/data/car.json");
-  // convert into json format
-  let carData = await response.json();
-
-  // search car by carId
-  let car = carData.find((car) => car.carId === carId);
-
-  return car;
-}
-
-async function FuelPricesJSON() {
-  const url =
-    "https://creativecommons.tankerkoenig.de/json/list.php?lat=50.9413&lng=6.95838&rad=1.5&sort=dist&type=all&apikey=0d666ee8-9682-db0a-4859-b167d84d84a4";
-  const response = await fetch(url);
-  const data = await response.json();
-  const firstStation = data.stations[0];
-  return {
-    fueltypes: [
-      {
-        fuelId: 1,
-        name: "Diesel",
-        pricePerLiter: firstStation.diesel,
-      },
-
-      {
-        fuelId: 2,
-        name: "E5",
-        pricePerLiter: firstStation.e5,
-      },
-
-      {
-        fuelId: 3,
-        name: "E10",
-        pricePerLiter: firstStation.e10,
-      },
-    ],
-  };
-}
-FuelPricesJSON().then((data) => console.log(data));
-
-// calculates the amount of fuel buyable with a budget
-async function calculateFuelAmount(budget, fuelType) {
-
-  let fuelData = await FuelPricesJSON(fuelType);
-
-  for (const fuel in fuelData.fueltypes) {
-    let obj = fuelData.fueltypes[fuel];
-    if (obj.name === fuelType) {
-      let fuelAmount = budget / obj.pricePerLiter;
-      return fuelAmount;
+async function getDriverById(driverId) {
+  try {
+    let response = await fetch("./data/driver.json");
+    let driverData = await response.json();
+    for (var key in driverData) {
+      if (key == driverId) {
+        return driverData[key];
+      }
     }
+  } catch (error) {
+    console.log(error);
   }
-
-  return "Fehlerhafter Kraftstofftyp";
+  return true;
 }
 
-async function calculateRange(fuelAmount, carId) {
 
-  let car = await getCarData(carId);
-  let minCon = car.minConsumPer100Kilometers;
-  let maxCon = car.maxConsumPer100Kilometers;
-  return {minRange: fuelAmount / (maxCon / 100), maxRange: fuelAmount / (minCon / 100)};
-}
+////////
 
-document.getElementById("calcButton").addEventListener("click", calc);
 
-async function calc() {
-  const carId = Number(document.querySelector('input[name="fueltype"]:checked').value);
-  const budgetInput = document.getElementById("budget").value;
 
-  
-
-  let carData = await getCarData(carId);
-  console.log(carData);
-
-  let fuelAmount = await calculateFuelAmount(budgetInput, carData.fuelType);
-
-  let range = await calculateRange(fuelAmount, carId);
-
-  console.log(carData.fuelType, carId);
-
-  console.log(
-    `Es kann mit einem Budget von ${budgetInput} Euro ${fuelAmount.toFixed(2)} Liter ${carData.fuelType} für Ihren ${carData.name} kaufen.
-     Damit kommen Sie bis zu ${range.maxRange.toFixed(2)} Kilometer und mindestens ${range.minRange.toFixed(2)} weit`
-  );
-
-}
 
 window.initMap = initMap;
