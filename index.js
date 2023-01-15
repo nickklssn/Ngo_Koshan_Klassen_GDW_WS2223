@@ -35,7 +35,8 @@ document.getElementById("reqSightData").addEventListener("click", async function
   const driverData = await getDrivers();
   let id = driverData[choice].driverId;
 
-  fetch(`http://localhost:3000/insertData/${id}`)
+  // fetch(`http://localhost:3000/insertData/${id}`)
+  fetch(`https://gdw2023.onrender.com/insertData/${id}`)
   .then(response => response.text())
   .then(data => {
     console.log(data);
