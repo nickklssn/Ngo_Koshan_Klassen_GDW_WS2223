@@ -12,12 +12,11 @@ async function getCarData(carId) {
     fs.readFile("./data/car.json", "utf8", (err, data) => {
       if (err) reject(err);
       let carData = JSON.parse(data);
-      let car = carData.find((car) => car.carId === carId);
+      let car = Object.values(carData).find((car) => car.carId === carId);
       resolve(car);
     });
   });
 }
-
 // calculates the amount of fuel buyable with a budget
 async function calculateFuelAmount(budget, fuelType) {
   let fuelData = await fetchFuelPricesJSON(fuelType);
@@ -57,6 +56,8 @@ async function getDriverById(driverId) {
     });
   });
 }
+
+
 async function calcData(driverId, carId) {
   let driverData = await getDriverById(driverId);
   let carData = await getCarData(carId);
