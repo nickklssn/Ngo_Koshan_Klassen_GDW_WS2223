@@ -17,7 +17,6 @@ async function getCarData(carId) {
     });
   });
 }
-
 // calculates the amount of fuel buyable with a budget
 async function calculateFuelAmount(budget, fuelType) {
   let fuelData = await fetchFuelPricesJSON(fuelType);
@@ -57,6 +56,8 @@ async function getDriverById(driverId) {
     });
   });
 }
+
+
 async function calcData(driverId, carId) {
   let driverData = await getDriverById(driverId);
   let carData = await getCarData(carId);
