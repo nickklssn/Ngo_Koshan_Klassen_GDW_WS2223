@@ -10,11 +10,6 @@ const driverSchema = require("./schema/driverSchema.js");
 const { exec } = require("child_process");
 const cors = require('cors');
 
-app.use(cors({
-  origin: 'https://gdw-2023-nkk.onrender.com'
-}));
-app.options("*", cors());
-
 //Middleware for express
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname)));
