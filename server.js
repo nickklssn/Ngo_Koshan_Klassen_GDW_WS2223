@@ -11,9 +11,8 @@ const { exec } = require("child_process");
 const cors = require('cors');
 
 // Allow cors origin from deployment-server
-app.use(cors({
-  origin: 'https://gdw2023.onrender.com'
-}));
+app.use(cors({ origin: "http://localhost/" }))
+app.options("*", cors())
 
 //Middleware for express
 app.set("view engine", "ejs");
