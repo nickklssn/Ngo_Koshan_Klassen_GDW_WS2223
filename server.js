@@ -11,7 +11,7 @@ const { exec } = require("child_process");
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'https://gdw2023.onrender.com'
+  origin: 'https://gdw-2023-nkk.onrender.com'
 }));
 app.options("*", cors());
 
