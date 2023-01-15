@@ -36,7 +36,7 @@ document.getElementById("reqSightData").addEventListener("click", async function
   let id = await driverData[choice].driverId;
 
   try {
-    const response = await fetch(`https://localhost:3000/insertData/${id}`);
+    const response = await fetch(`http://localhost:3000/insertData/${id}`);
     const data = await response.text();
     console.log(data);
   } catch (error) {
