@@ -17,6 +17,15 @@ app.get("/", function (req, res) {
   res.render("index");
 });
 
+app.get("/sight", function (req, res) {
+  fs.readFile("data/currSightsReq.json", "utf-8", (err, data) => {
+    if (err) throw err;
+
+    var obj = JSON.parse(data);
+    res.status(200).json(obj);
+  });
+});
+
 app.get("/car", function (req, res) {
   if (fs.existsSync("data/car.json")) {
     fs.readFile("data/car.json", "utf-8", (err, data) => {

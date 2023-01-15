@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node fuel.js",
-    "server": "nodemon server.js"
+    "start": "node scripts/calc.js",
+    "server": "nodemon server.js",
+    "fuel": "node scripts/fuel.js",
+    "sight": "node scripts/sights.js"
   },
   "repository": {
     "type": "git",
