@@ -19,18 +19,19 @@ async function getCarData(carId) {
 }
 // calculates the amount of fuel buyable with a budget
 async function calculateFuelAmount(budget, fuelType) {
-  let fuelData = await fetchFuelPricesJSON(fuelType);
 
+  let fuelData = await fetchFuelPricesJSON();
   for (const fuel in fuelData.fueltypes) {
     let obj = fuelData.fueltypes[fuel];
-    if (obj.name === fuelType) {
+    if (obj.name.toUpperCase() == fuelType.toUpperCase()) {
       let fuelAmount = budget / obj.pricePerLiter;
       return fuelAmount;
     }
   }
-
-  return "Fehlerhafter Kraftstofftyp";
+  return "Fehlerhafter Krafstoff";
 }
+
+calculateFuelAmount(10, 'diesel').then((data) => console.log(data));
 
 async function calculateRange(fuelAmount, carId) {
   let car = await getCarData(carId);
@@ -63,6 +64,7 @@ async function calcData(driverId, carId) {
   let carData = await getCarData(carId);
   let budget = driverData.budget;
   let fuelAmount = await calculateFuelAmount(budget, carData.fuelType);
+  console.log(carData);
   let range = await calculateRange(fuelAmount, carId);
 
   // console.log(
