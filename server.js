@@ -8,6 +8,7 @@ const ajv = new Ajv();
 const carSchema = require("./schema/carSchema.js");
 const driverSchema = require("./schema/driverSchema.js");
 const { raw } = require("express");
+const { exec } = require("child_process");
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname)));
@@ -265,6 +266,21 @@ app.delete("/driver", function (req, res) {
       throw err;
     }
     res.status(200).json({ status: "Succesfully deleted" });
+  });
+});
+
+app.get("/insertData/:id", (req, res) => {
+  let id = req.params.id;
+  exec("npm run start " + id, (error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return res.status(500).send(error.message);
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return res.status(500).send(stderr);
+      }
+      res.status(200).send("Script executed successfully");
   });
 });
 

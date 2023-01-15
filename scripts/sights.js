@@ -15,10 +15,12 @@ function getWriteSightsForDriver(lat, lng, radius, driverId) {
       for (var i = 0; i < sights.length; i++) {
         var lat = sights[i].geometry.location.lat;
         var lng = sights[i].geometry.location.lng;
+        var name = sights[i].name
         var place_id = sights[i].place_id;
         var vicinity = sights[i].vicinity;
         var sight = {
           place_id: place_id,
+          name: name,
           lat: lat,
           lng: lng,
           vicinity: vicinity
@@ -36,4 +38,5 @@ function getWriteSightsForDriver(lat, lng, radius, driverId) {
       console.log(error);
     });
 }
+
 module.exports = getWriteSightsForDriver;

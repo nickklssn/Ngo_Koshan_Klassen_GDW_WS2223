@@ -15,10 +15,16 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family:'Calibri', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
 }
 
 /* STYLING */
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
 
 .form-wrapper {
   margin: 2rem;
@@ -40,6 +46,10 @@ label {
   width: 10rem;
 }
 
+.radio-choice label {
+  width: 7rem;;
+}
+
 input[type="number"],
 input[type="text"] {
   width: 40%;
@@ -53,6 +63,22 @@ input[type="text"] {
   margin-bottom: 1rem;
   border-bottom: 1px solid #000;
   padding-bottom: 1rem;
+}
+
+
+#driver-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#driver-group label {
+  max-width: 7rem;
+  padding-left: 1rem;;
+}
+
+#driver-group label,
+#driver-group input {
+  margin-bottom: 1rem;
 }
 
 .button-container {
@@ -77,9 +103,15 @@ button:hover {
 
 .row-button {
 min-width: 10rem;
+margin-right: 2rem;
 }
 
 .question {
   display: inline-block;
   margin-bottom: 1rem;
+}
+
+.hint {
+  display: inline-block;
+  margin-bottom: 2rem;;
 }

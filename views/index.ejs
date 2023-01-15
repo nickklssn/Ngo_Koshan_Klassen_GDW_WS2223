@@ -9,77 +9,33 @@
 
     <div class="form-wrapper">
       <form>
-        <div class="form-group">
-          <label for="latitude">Latitude</label>
-          <input type="number" id="lat" />
 
-          <label for="longitude">Longitude</label>
-          <input type="number" id="lng" />
+        <h3 class="question">Wählen Sie den Fahrer aus.</h3><br />
+        <p class="hint">Anschließend klicken sie zuerst auf "Daten berechnen" 
+          Warten Sie drauf, dass in der Konsole eine Erfolgsnachricht erscheint.
+          Dann klicken Sie auf "Route berechnen". Es wird eineRoute berechnet zu einem PoI, 
+          dass mit den hinterlegten <b>Fahrerdaten (Budget, Standort, Durchschnittlicher Auto-Kraftstoffverbrauch, Kraftstofftyp des Autos) zusammenhängt</b></p>
+        <div class="wrapper">
+          <div id="driver-group" class="form-group">
 
-          <button id="subButton" class="row-button" type="button">
-            Standort anzeigen
-          </button>
-        </div>
-
-        <div class="form-group">
-          <label for="origin">Origin</label>
-          <input id="origin" type="text" placeholder="Enter origin" />
-
-          <label for="dest">Destination</label>
-          <input id="dest" type="text" placeholder="Enter destination" />
-
-          <button id="routeButton" class="row-button" type="button">
-            Route anzeigen
-          </button>
-        </div>
-
-        <div class="form-group">
-          <label for="budget">Budget</label>
-          <input id="budget" type="number" placeholder="Enter budget" />
-
-          <label for="dest">Range</label>
-          <input id="dest" type="text" placeholder="Text" />
-
-          <button id="calcButton" class="row-button" type="button">
-            Umrechnen
-          </button>
-        </div>
-
-        <span class="question">Welches Auto fahren Sie?</span><br />
-        <div class="form-group">
-          <div class="radio-choice">
-            <input
-              type="radio"
-              id="e5"
-              name="fueltype"
-              value="1"
-              checked="checked"
-            />
-            <label for="e5">Porsche 911</label>
           </div>
-          <div class="radio-choice">
-            <input type="radio" id="diesel " name="fueltype" value="2" />
-            <label for="diesel">Mercedes AMG</label>
+          <button id="getDriversButton" class="row-button" type="button">
+            Fahrer aktualisieren
+          </button>
+
+          <div>
+            <button id="reqSightData" class="row-button" type="button">Daten berechnen</button>
           </div>
-          <div class="radio-choice">
-            <input type="radio" id="e10" name="fueltype" value="3" />
-            <label for="e10">Audi A7</label>
+          
+          <div>
+            <button id="getSight" class="row-button" type="button">Route berechnen</button>
           </div>
+
+        
         </div>
+     
       </form>
     </div>
-
-    <div>
-      <button id="getSight" type="button">GO!</button>
-    </div>
-
-    <div class="container-fluid"></div>
-    <div id="output"></div>
-
-    <!-- The `defer` attribute causes the callback to execute after the full HTML
-     document has been parsed. For non-blocking uses, avoiding race conditions,
-     and consistent behavior across browsers, consider loading using Promises
-     with https://www.npmjs.com/package/@googlemaps/js-api-loader. -->
 
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6PpTUvfOJ0l3P4ZtlOpSs2zMKMtZ57I0&callback=initMap&libraries=places&v=weekly"
