@@ -10,6 +10,10 @@ function initMap() {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 6,
   });
+  var directionsService = new google.maps.DirectionsService();
+  var directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsDisplay.setMap(map);
+
   roadDirection();
   calculateTime();
 
@@ -28,7 +32,10 @@ function initMap() {
       document.getElementById("dest").value
     );
   });
-  
+
+  var onChangeHandler = function () {
+    createRouteToSight(directionsService, directionsDisplay);
+  };
 
   var autocomplete = new google.maps.places.Autocomplete(
     document.getElementById("origin"),
@@ -40,9 +47,9 @@ function initMap() {
   );
 
   var origin = document.getElementById("origin").value;
-  var destination=document.getElementById("dest").value;
+  var destination = document.getElementById("dest").value;
 
-  function roadDirection(origin,destination) {
+  function roadDirection(origin, destination) {
     // Create a DirectionsService object to request directions
     var directionsService = new google.maps.DirectionsService();
 
@@ -65,14 +72,31 @@ function initMap() {
     });
   }
 
-  function calculateTime(origin,destination) {
+  async function getSights() {
+    try {
+      const response = await fetch("data/currSightsReq.json");
+      const data = await response.json();
+      for (const key in data) {
+        return data[key].sights;
+      }
+    } catch (error) {
+      console.log("An error occurred: " + error);
+      return error;
+    }
+  }
+
+  /*     const test = await getSights();
+    console.log(test);
+    console.log("This is a efefwefw"); */
+
+  function calculateTime(origin, destination) {
     // Create a DirectionsService object to request directions
     var directionsService = new google.maps.DirectionsService();
 
     // Set the origin and destination for the directions
     var request = {
-      origin: origin,
-      destination: destination,
+      origin: "Gummersbach",
+      destination: "Köln",
       travelMode: "DRIVING", // Mode of transport
     };
 
@@ -90,6 +114,39 @@ function initMap() {
       }
     });
   }
+
+  async function createRouteToSight(directionsService, directionsDisplay) {
+    const sight = await getSights();
+    console.log(sight);
+
+    let randomIndex = Math.floor(Math.random() * (sight.length - 1) + 1);
+    console.log(randomIndex);
+
+    var randomSight = sight[randomIndex].vicinity;
+    console.log(randomSight);
+
+    directionsService.route(
+      {
+        origin: currPos,
+        destination: randomSight,
+        travelMode: "DRIVING",
+      },
+      function (response, status) {
+        if (status === "OK") {
+          directionsDisplay.setDirections(response);
+          console.log("Please create route");
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
+
+    console.log("This function should run");
+  }
+
+  document
+    .getElementById("getSight")
+    .addEventListener("click", onChangeHandler);
 
   infoWindow = new google.maps.InfoWindow();
 
@@ -116,7 +173,7 @@ function initMap() {
 
   const locationButton = document.createElement("button");
 
-  let currPos = {lng: 0, lat: 0};
+  let currPos = { lng: 0, lat: 0 };
 
   locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("custom-map-control-button");
@@ -241,11 +298,5 @@ async function getDriverById(driverId) {
   }
   return true;
 }
-
-
-////////
-
-
-
 
 window.initMap = initMap;
