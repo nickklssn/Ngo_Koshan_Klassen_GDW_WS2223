@@ -8,6 +8,12 @@ const ajv = new Ajv();
 const carSchema = require("./schema/carSchema.js");
 const driverSchema = require("./schema/driverSchema.js");
 const { exec } = require("child_process");
+const cors = require('cors');
+
+// Allow cors origin from deployment-server
+app.use(cors({
+  origin: 'https://gdw2023.onrender.com'
+}));
 
 //Middleware for express
 app.set("view engine", "ejs");
