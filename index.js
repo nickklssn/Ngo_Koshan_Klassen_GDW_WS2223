@@ -14,8 +14,23 @@ async function getDrivers() {
   }
 }
 
-document.getElementById("reqSightData").addEventListener("click", async function(){
+async function getDriverById(driverId) {
+  try {
+    let response = await fetch("./data/driver.json");
+    let driverData = await response.json();
+    for (var key in driverData) {
+      if (key == driverId) {
+        return driverData[key];
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return true;
+}
 
+// Bind clickevent on button to call a npm-script which fills the currSightsReq.json with data depending on driverdata
+document.getElementById("reqSightData").addEventListener("click", async function(){
   const choice =  document.querySelector('input[name=driver]:checked').value;
   const driverData = await getDrivers();
   let id = driverData[choice].driverId;
@@ -31,20 +46,6 @@ document.getElementById("reqSightData").addEventListener("click", async function
   });
 });
 
-async function getDriverById(driverId) {
-  try {
-    let response = await fetch("./data/driver.json");
-    let driverData = await response.json();
-    for (var key in driverData) {
-      if (key == driverId) {
-        return driverData[key];
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  return true;
-}
 
 const radioGroup = document.getElementById("driver-group");
 
@@ -78,15 +79,14 @@ async function insertDrivers() {
   }
 }
 
-// Load drivers once
+// Load current drivers at start
 insertDrivers()
-// Button to insert drivers
+// Button to insert drivers again (after changes in driver.json)
 document.getElementById('getDriversButton').addEventListener("click", insertDrivers);
 
 
-// locate you.
+// Google Maps API Environment
 let map, infoWindow;
-
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 51.00, lng: 10.00 },
@@ -113,18 +113,14 @@ function initMap() {
     }
   }
 
+  // Show random sight in range after calculations
   async function createRouteToSight(directionsService, directionsDisplay) {
     const choice =  document.querySelector('input[name=driver]:checked').value;
     const driverData = await getDrivers();
     const sight = await getSights();
-    console.log("Aktuelle Position des Fahrers: " + " Lat: " + driverData[choice].currentPos.lat + " Lng: " + driverData[choice].currentPos.lng);
-    console.log(sight);
-
     let randomIndex = Math.floor(Math.random() * (sight.length - 1) + 1);
-    console.log(randomIndex);
 
     var randomSight = sight[randomIndex].vicinity;
-    console.log(randomSight);
 
     directionsService.route(
       {
@@ -141,21 +137,9 @@ function initMap() {
         }
       }
     );
-
-    console.log("This function should run");
   }
-
-  document
-    .getElementById("getSight")
-    .addEventListener("click", onChangeHandler);
-
+  document.getElementById("getSight").addEventListener("click", onChangeHandler);
   infoWindow = new google.maps.InfoWindow();
-
-  var subButton = document.getElementById("routeButton");
-
-  const locationButton = document.createElement("button");
-
-
 }
 
 window.initMap = initMap;

@@ -17,32 +17,8 @@ async function getCarData(carId) {
     });
   });
 }
-// calculates the amount of fuel buyable with a budget
-async function calculateFuelAmount(budget, fuelType) {
 
-  let fuelData = await fetchFuelPricesJSON();
-  for (const fuel in fuelData.fueltypes) {
-    let obj = fuelData.fueltypes[fuel];
-    if (obj.name.toUpperCase() == fuelType.toUpperCase()) {
-      let fuelAmount = budget / obj.pricePerLiter;
-      return fuelAmount;
-    }
-  }
-  return "Fehlerhafter Krafstoff";
-}
-
-calculateFuelAmount(10, 'diesel').then((data) => console.log(data));
-
-async function calculateRange(fuelAmount, carId) {
-  let car = await getCarData(carId);
-  let minCon = car.minConsumPer100Kilometers;
-  let maxCon = car.maxConsumPer100Kilometers;
-  return {
-    minRange: fuelAmount / (maxCon / 100),
-    maxRange: fuelAmount / (minCon / 100),
-  };
-}
-
+// Return driver
 async function getDriverById(driverId) {
   return new Promise((resolve, reject) => {
     fs.readFile("./data/driver.json", "utf8", (err, data) => {
@@ -59,6 +35,32 @@ async function getDriverById(driverId) {
 }
 
 
+// calculates the amount of fuel buyable with a budget
+async function calculateFuelAmount(budget, fuelType) {
+
+  let fuelData = await fetchFuelPricesJSON();
+  for (const fuel in fuelData.fueltypes) {
+    let obj = fuelData.fueltypes[fuel];
+    if (obj.name.toUpperCase() == fuelType.toUpperCase()) {
+      let fuelAmount = budget / obj.pricePerLiter;
+      return fuelAmount;
+    }
+  }
+  return "Fehlerhafter Krafstoff";
+}
+
+// Calculate Range with min and max consumption
+async function calculateRange(fuelAmount, carId) {
+  let car = await getCarData(carId);
+  let minCon = car.minConsumPer100Kilometers;
+  let maxCon = car.maxConsumPer100Kilometers;
+  return {
+    minRange: fuelAmount / (maxCon / 100),
+    maxRange: fuelAmount / (minCon / 100),
+  };
+}
+
+// Calculates data
 async function calcData(driverId, carId) {
   let driverData = await getDriverById(driverId);
   let carData = await getCarData(carId);
@@ -66,11 +68,6 @@ async function calcData(driverId, carId) {
   let fuelAmount = await calculateFuelAmount(budget, carData.fuelType);
   console.log(carData);
   let range = await calculateRange(fuelAmount, carId);
-
-  // console.log(
-  //   `Es kann mit einem Budget von ${budget} Euro ${fuelAmount.toFixed(2)} Liter ${carData.fuelType} für Ihren ${carData.name} kaufen.
-  //    Damit kommen Sie bis zu ${range.maxRange.toFixed(2)} Kilometer und mindestens ${range.minRange.toFixed(2)} weit`
-  // );
 
   return {
     budget: budget,
@@ -82,6 +79,7 @@ async function calcData(driverId, carId) {
   };
 }
 
+// Writes the sights into JSON
 async function writeSightsJSON(driverId) {
   let driverData = await getDriverById(driverId);
   let lat = driverData.currentPos.lat;
@@ -90,8 +88,8 @@ async function writeSightsJSON(driverId) {
   let minRange = (await calcData(driverId, driverData.carId)).minRange;
   let avgRange = (maxRange + minRange) / 2;
 
+  // Get sights from the sight.js-function
   getWriteSightsForDriver(lat, lng, avgRange, driverId);
 }
 
-// Write sights into currSightsReq.json
 writeSightsJSON(passedParameter);
