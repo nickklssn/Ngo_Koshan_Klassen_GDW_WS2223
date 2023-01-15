@@ -1,5 +1,6 @@
 const Ajv = require("ajv");
 
+//schema for the driver json object
 const driverSchema = {
   type: "object",
   properties: {
@@ -20,4 +21,5 @@ const driverSchema = {
   additionalProperties: false,
 };
 
+//export the schema for usage in server
 module.exports = driverSchema;
