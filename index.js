@@ -31,9 +31,9 @@ async function getDriverById(driverId) {
 
 // Bind clickevent on button to call a npm-script which fills the currSightsReq.json with data depending on driverdata
 document.getElementById("reqSightData").addEventListener("click", async function(){
-  const choice =  document.querySelector('input[name=driver]:checked').value;
+  const choice = document.querySelector('input[name=driver]:checked').value;
   const driverData = await getDrivers();
-  let id = driverData[choice].driverId;
+  let id = await driverData[choice].driverId;
 
   // fetch(`http://localhost:3000/insertData/${id}`)
   fetch(`https://gdw-2023-nkk.onrender.com/insertData/${id}`)
