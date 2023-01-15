@@ -1,5 +1,6 @@
 const Ajv = require("ajv");
 
+//schema for the car json object
 const carSchema = {
   type: "object",
   properties: {
@@ -19,4 +20,5 @@ const carSchema = {
   additionalProperties: false,
 };
 
+//export the schema for usage in server
 module.exports = carSchema;

@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
-const fs = require("fs");
 
+//function to get the current fuel prices in Cologne
 async function fetchFuelPricesJSON() {
   const url =
     "https://creativecommons.tankerkoenig.de/json/list.php?lat=50.9413&lng=6.95838&rad=1.5&sort=dist&type=all&apikey=0d666ee8-9682-db0a-4859-b167d84d84a4";
@@ -30,4 +30,5 @@ async function fetchFuelPricesJSON() {
   };
 }
 
+//export function for usage in other files
 module.exports = fetchFuelPricesJSON;
