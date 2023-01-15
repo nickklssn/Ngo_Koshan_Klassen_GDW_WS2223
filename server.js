@@ -10,9 +10,10 @@ const driverSchema = require("./schema/driverSchema.js");
 const { exec } = require("child_process");
 const cors = require('cors');
 
-// Allow cors origin from deployment-server
-app.use(cors({ origin: "http://localhost/" }))
-app.options("*", cors())
+app.use(cors({
+  origin: 'https://gdw2023.onrender.com'
+}));
+app.options("*", cors());
 
 //Middleware for express
 app.set("view engine", "ejs");
