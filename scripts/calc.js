@@ -12,7 +12,7 @@ async function getCarData(carId) {
     fs.readFile("./data/car.json", "utf8", (err, data) => {
       if (err) reject(err);
       let carData = JSON.parse(data);
-      let car = carData.find((car) => car.carId === carId);
+      let car = Object.values(carData).find((car) => car.carId === carId);
       resolve(car);
     });
   });
