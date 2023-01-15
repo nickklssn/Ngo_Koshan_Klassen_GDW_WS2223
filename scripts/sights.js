@@ -1,6 +1,7 @@
 const fs = require('fs');
 const axios = require("axios");
 
+// Send request to places API and save the write sights into currSightsReq.json  
 function getWriteSightsForDriver(lat, lng, radius, driverId) {
   var config = {
     method: "get",
